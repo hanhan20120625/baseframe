@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.msframe.modules.cms.dao.CmsProgramRegionDao">
+
+    <sql id="cmsProgramRegionColumns">
+		a.id AS "id",
+		a.program_id AS "programId.id",
+		a.region AS "region.id",
+		a.status AS "status",
+		a.sort AS "sort",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.remarks AS "remarks",
+		a.remark1 AS "remark1",
+		cmsRegion.name AS "region.name"
+	</sql>
+
+    <sql id="cmsProgramRegionJoins">
+        LEFT JOIN cms_region cmsRegion ON cmsRegion.id = a.region
+	</sql>
+
+
+    <select id="get" resultType="CmsProgramRegion">
+        SELECT
+        <include refid="cmsProgramRegionColumns"/>
+        FROM cms_program_region a
+        <include refid="cmsProgramRegionJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="CmsProgramRegion">
+        SELECT
+        <include refid="cmsProgramRegionColumns"/>
+        FROM cms_program_region a
+        <include refid="cmsProgramRegionJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="programId != null and programId != ''">
+                AND a.program_id LIKE
+                <if test="dbName == 'oracle'">'%'||#{programId.id}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{programId.id}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{programId.id},'%')</if>
+            </if>
+            <if test="region != null and region != ''">
+                AND a.region LIKE
+                <if test="dbName == 'oracle'">'%'||#{region.id}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{region.id}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{region.id},'%')</if>
+            </if>
+            <if test="status != null and status != '' or status == 0">
+                AND a.status = #{status}
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="CmsProgramRegion">
+        SELECT
+        <include refid="cmsProgramRegionColumns"/>
+        FROM cms_program_region a
+        <include refid="cmsProgramRegionJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
+		INSERT INTO cms_program_region(
+			id,
+			program_id,
+			region,
+			status,
+			sort,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			remarks,
+			remark1
+		) VALUES (
+			#{id},
+			#{programId.id},
+			#{region.id},
+			#{status},
+			#{sort},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{remarks},
+			#{remark1}
+		)
+	</insert>
+
+    <update id="update">
+		UPDATE cms_program_region SET 	
+			program_id = #{programId.id},
+			region = #{region.id},
+			status = #{status},
+			sort = #{sort},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			remark1 = #{remark1}
+		WHERE id = #{id}
+	</update>
+
+
+    <!--物理删除-->
+    <update id="delete">
+		DELETE FROM cms_program_region
+		WHERE id = #{id}
+	</update>
+
+    <!--逻辑删除-->
+    <update id="deleteByLogic">
+		UPDATE cms_program_region SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+    <!-- 更新影片地区关联 -->
+    <update id="updateByProgramId">
+		UPDATE cms_program_region SET
+			  region = #{region.id}
+		WHERE program_id = #{programId.id}
+	</update>
+
+    <!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+    <select id="findUniqueByProperty" resultType="CmsProgramRegion" statementType="STATEMENT">
+		select * FROM cms_program_region  where ${propertyName} = '${value}'
+	</select>
+
+    <delete id="deleteByProgramIdAndRegionId">
+		DELETE FROM cms_program_region
+		WHERE program_id = #{programId.id} AND region = #{region.id}
+	</delete>
+
+</mapper>

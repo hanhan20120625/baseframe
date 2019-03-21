@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.msframe.modules.cms.dao.CmsProgramTypeDao">
+
+    <sql id="cmsProgramTypeColumns">
+		a.id AS "id",
+		a.program_id AS "programId.id",
+		a.type_id AS "typeId.id",
+		a.status AS "status",
+		a.sort AS "sort",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.remarks AS "remarks",
+		a.remark1 AS "remark1",
+		cmsType.name AS "typeId.name"
+	</sql>
+
+    <sql id="cmsProgramTypeJoins">
+		LEFT JOIN cms_type cmsType ON cmsType.id = a.type_id
+    </sql>
+
+
+    <select id="get" resultType="CmsProgramType">
+        SELECT
+        <include refid="cmsProgramTypeColumns"/>
+        FROM cms_program_type a
+        <include refid="cmsProgramTypeJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="CmsProgramType">
+        SELECT
+        <include refid="cmsProgramTypeColumns"/>
+        FROM cms_program_type a
+        <include refid="cmsProgramTypeJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="programId != null and programId != ''">
+                AND a.program_id LIKE
+                <if test="dbName == 'oracle'">'%'||#{programId.id}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{programId.id}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{programId.id},'%')</if>
+            </if>
+            <if test="typeId != null and typeId != ''">
+                AND a.type_id = #{typeId}
+            </if>
+            <if test="status != null and status != '' or status == 0">
+                AND a.status = #{status}
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="CmsProgramType">
+        SELECT
+        <include refid="cmsProgramTypeColumns"/>
+        FROM cms_program_type a
+        <include refid="cmsProgramTypeJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
+		INSERT INTO cms_program_type(
+			id,
+			program_id,
+			type_id,
+			status,
+			sort,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			remarks,
+			remark1
+		) VALUES (
+			#{id},
+			#{programId.id},
+			#{typeId.id},
+			#{status},
+			#{sort},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{remarks},
+			#{remark1}
+		)
+	</insert>
+
+    <update id="update">
+		UPDATE cms_program_type SET 	
+			program_id = #{programId.id},
+			type_id = #{typeId.id},
+			status = #{status},
+			sort = #{sort},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			remark1 = #{remark1}
+		WHERE id = #{id}
+	</update>
+
+
+    <!--物理删除-->
+    <update id="delete">
+		DELETE FROM cms_program_type
+		WHERE id = #{id}
+	</update>
+
+    <!--逻辑删除-->
+    <update id="deleteByLogic">
+		UPDATE cms_program_type SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+    <!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+    <select id="findUniqueByProperty" resultType="CmsProgramType" statementType="STATEMENT">
+		select * FROM cms_program_type  where ${propertyName} = '${value}'
+	</select>
+
+    <update id="updateByProgramId">
+		UPDATE cms_program_type SET
+			type_id = #{typeId.id}
+		WHERE program_id = #{programId.id}
+	</update>
+
+    <delete id="deleteByProgramIdAndTypeId">
+		DELETE FROM cms_program_type
+		WHERE type_id = #{typeId.id} AND program_id = #{programId.id}
+	</delete>
+
+</mapper>

@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.msframe.modules.cms.dao.CmsSpDao">
+    
+	<sql id="cmsSpColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.link_man AS "linkMan",
+		a.mobile AS "mobile",
+		a.telephone AS "telephone",
+		a.email AS "email",
+		a.address AS "address",
+		a.code AS "code",
+		a.intro AS "intro",
+		a.secret_key AS "secretKey",
+		a.compact_number AS "compactNumber",
+		a.compact_starttime AS "compactStarttime",
+		a.compact_endtime AS "compactEndtime",
+		a.movie_downed AS "movieDowned",
+		a.supply_stream AS "supplyStream",
+		a.company_name AS "companyName",
+		a.tel_code AS "telCode",
+		a.ctype AS "ctype",
+		a.status AS "status",
+		a.sort AS "sort",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.remarks AS "remarks",
+		a.remark1 AS "remark1"
+	</sql>
+	
+	<sql id="cmsSpJoins">
+	</sql>
+	
+    
+	<select id="get" resultType="CmsSp" >
+		SELECT 
+			<include refid="cmsSpColumns"/>
+		FROM cms_sp a
+		<include refid="cmsSpJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CmsSp" >
+		SELECT 
+			<include refid="cmsSpColumns"/>
+		FROM cms_sp a
+		<include refid="cmsSpJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="linkMan != null and linkMan != ''">
+				AND a.link_man LIKE 
+					<if test="dbName == 'oracle'">'%'||#{linkMan}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{linkMan}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{linkMan},'%')</if>
+			</if>
+			<if test="mobile != null and mobile != ''">
+				AND a.mobile LIKE 
+					<if test="dbName == 'oracle'">'%'||#{mobile}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{mobile}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{mobile},'%')</if>
+			</if>
+			<if test="address != null and address != ''">
+				AND a.address LIKE 
+					<if test="dbName == 'oracle'">'%'||#{address}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{address}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{address},'%')</if>
+			</if>
+			<if test="compactNumber != null and compactNumber != ''">
+				AND a.compact_number = #{compactNumber}
+			</if>
+			<if test="compactStarttime != null and compactStarttime != ''">
+				AND a.compact_starttime = #{compactStarttime}
+			</if>
+			<if test="compactEndtime != null and compactEndtime != ''">
+				AND a.compact_endtime = #{compactEndtime}
+			</if>
+			<if test="movieDowned != null and movieDowned != ''">
+				AND a.movie_downed = #{movieDowned}
+			</if>
+			<if test="supplyStream != null and supplyStream != ''">
+				AND a.supply_stream = #{supplyStream}
+			</if>
+			<if test="companyName != null and companyName != ''">
+				AND a.company_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{companyName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{companyName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{companyName},'%')</if>
+			</if>
+			<if test="ctype != null and ctype != ''">
+				AND a.ctype = #{ctype}
+			</if>
+			<if test="status != null and status != '' or status==0">
+				AND a.status = #{status}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.sort DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CmsSp" >
+		SELECT 
+			<include refid="cmsSpColumns"/>
+		FROM cms_sp a
+		<include refid="cmsSpJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.sort ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO cms_sp(
+			id,
+			name,
+			link_man,
+			mobile,
+			telephone,
+			email,
+			address,
+			code,
+			intro,
+			secret_key,
+			compact_number,
+			compact_starttime,
+			compact_endtime,
+			movie_downed,
+			supply_stream,
+			company_name,
+			tel_code,
+			ctype,
+			status,
+			sort,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			remarks,
+			remark1
+		) VALUES (
+			#{id},
+			#{name},
+			#{linkMan},
+			#{mobile},
+			#{telephone},
+			#{email},
+			#{address},
+			#{code},
+			#{intro},
+			#{secretKey},
+			#{compactNumber},
+			#{compactStarttime},
+			#{compactEndtime},
+			#{movieDowned},
+			#{supplyStream},
+			#{companyName},
+			#{telCode},
+			#{ctype},
+			#{status},
+			#{sort},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{remarks},
+			#{remark1}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE cms_sp SET 	
+			name = #{name},
+			link_man = #{linkMan},
+			mobile = #{mobile},
+			telephone = #{telephone},
+			email = #{email},
+			address = #{address},
+			code = #{code},
+			intro = #{intro},
+			secret_key = #{secretKey},
+			compact_number = #{compactNumber},
+			compact_starttime = #{compactStarttime},
+			compact_endtime = #{compactEndtime},
+			movie_downed = #{movieDowned},
+			supply_stream = #{supplyStream},
+			company_name = #{companyName},
+			tel_code = #{telCode},
+			ctype = #{ctype},
+			status = #{status},
+			sort = #{sort},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			remark1 = #{remark1}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM cms_sp
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE cms_sp SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="CmsSp" statementType="STATEMENT">
+		select * FROM cms_sp where ${propertyName} = '${value}'
+	</select>
+
+	<!-- 排序功能 Begin -->
+	<!-- 读取上一条数据 -->
+	<select id="selectTopSort" resultType="java.lang.Long">
+		SELECT sort FROM cms_sp WHERE sort !=''
+		<include refid="condition"/>
+		ORDER BY sort ASC limit 0,1
+	</select>
+
+	<select id="selectPreviousSort" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT id,sort FROM cms_sp WHERE sort &gt; #{sort}
+		<include refid="condition"/>
+		ORDER BY sort ASC limit 0,1
+    </select>
+
+	<!-- 读取下一条数据 -->
+	<select id="selectNextSort" resultType="java.util.Map" parameterType="java.util.Map">
+		  SELECT id,sort FROM cms_sp WHERE sort &lt; #{sort}
+		  <include refid="condition"/>
+		  ORDER BY sort DESC limit 0,1
+	</select>
+
+	<!-- 修改当前数据的排序 -->
+	<update id="updateSelfSort" parameterType="java.util.Map">
+		UPDATE cms_sp SET sort = #{sort} WHERE id = #{id}
+		<include refid="condition"/>
+	</update>
+
+	<!-- 修改当前的上一条、下一条的排序数据 -->
+	<update id="updateOtherSort" parameterType="java.util.Map">
+		UPDATE cms_program SET sort = #{sort} WHERE  sort = #{origianlSort}
+		<include refid="condition"/>
+	</update>
+	<!-- 排序功能 End -->
+	<sql id="condition">
+		<if test="name != null and name !=''">
+			and name LIKE
+			<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+			<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+			<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+		</if>
+		<if test="linkMan != null and linkMan !=''">
+			AND link_man = #{linkMan}
+		</if>
+		<if test="moblie != null and mobile != '' ">
+			AND mobile = #{mobile}
+		</if>
+		<if test="compactNumber != null and compactNumber !=''">
+			AND compact_number = #{compactNumber}
+		</if>
+		<if test="status != null and status !=''">
+			and status = #{status}
+		</if>
+	</sql>
+</mapper>

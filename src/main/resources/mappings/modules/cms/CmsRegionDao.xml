@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.msframe.modules.cms.dao.CmsRegionDao">
+    
+	<sql id="cmsRegionColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.description AS "description",
+		a.status AS "status",
+		a.sort AS "sort",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.remarks AS "remarks",
+		a.remark1 AS "remark1"
+	</sql>
+	
+	<sql id="cmsRegionJoins">
+	</sql>
+	
+    
+	<select id="get" resultType="CmsRegion" >
+		SELECT 
+			<include refid="cmsRegionColumns"/>
+		FROM cms_region a
+		<include refid="cmsRegionJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CmsRegion" >
+		SELECT 
+			<include refid="cmsRegionColumns"/>
+		FROM cms_region a
+		<include refid="cmsRegionJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="description != null and description != ''">
+				AND a.description LIKE 
+					<if test="dbName == 'oracle'">'%'||#{description}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{description}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{description},'%')</if>
+			</if>
+			<if test="status != null and status != '' or status == 0">
+				AND a.status = #{status}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.sort DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CmsRegion" >
+		SELECT 
+			<include refid="cmsRegionColumns"/>
+		FROM cms_region a
+		<include refid="cmsRegionJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.sort ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO cms_region(
+			id,
+			name,
+			description,
+			status,
+			sort,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			remarks,
+			remark1
+		) VALUES (
+			#{id},
+			#{name},
+			#{description},
+			#{status},
+			#{sort},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{remarks},
+			#{remark1}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE cms_region SET 	
+			name = #{name},
+			description = #{description},
+			status = #{status},
+			sort = #{sort},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			remark1 = #{remark1}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM cms_region
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE cms_region SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="CmsRegion" statementType="STATEMENT">
+		select * FROM cms_region  where ${propertyName} = '${value}'
+	</select>
+
+
+	<!-- 排序功能 Begin -->
+	<!-- 读取上一条数据 -->
+	<select id="selectTopSort" resultType="java.lang.Long">
+		SELECT sort FROM cms_region WHERE sort !=''
+		<include refid="condition"/>
+		ORDER BY sort ASC limit 0,1
+	</select>
+
+	<select id="selectPreviousSort" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT id,sort FROM cms_region WHERE sort &gt; #{sort}
+		<include refid="condition"/>
+		ORDER BY sort ASC limit 0,1
+	</select>
+
+	<!-- 读取下一条数据 -->
+	<select id="selectNextSort" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT id,sort FROM cms_region WHERE sort &lt; #{sort}
+		<include refid="condition"/>
+		ORDER BY sort DESC limit 0,1
+	</select>
+
+	<!-- 修改当前数据的排序 -->
+	<update id="updateSelfSort" parameterType="java.util.Map">
+		UPDATE cms_region SET sort = #{sort} WHERE id = #{id}
+		<include refid="condition"/>
+	</update>
+
+	<!-- 修改当前的上一条、下一条的排序数据 -->
+	<update id="updateOtherSort" parameterType="java.util.Map">
+		UPDATE cms_region SET sort = #{sort} WHERE  sort = #{origianlSort}
+		<include refid="condition"/>
+	</update>
+	<!-- 排序功能 End -->
+
+
+	<sql id="condition">
+		<if test="name != null and name !=''">
+			and name LIKE
+			<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+			<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+			<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+		</if>
+		<if test="status != null and status !=''">
+			and status = #{status}
+		</if>
+	</sql>
+</mapper>
