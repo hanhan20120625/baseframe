@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.msframe.common.constant.Constant;
-import com.msframe.modules.zms.entity.ZmsChannel;
+import com.msframe.modules.sys.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -136,7 +136,7 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
      */
     @Transactional
     public boolean changeSort(String id, Long currentSort, String operateType,Map<String,Object> queryPreviousSortMap) {
-        String dbname = new ZmsChannel().getDbName();
+        String dbname = new Role().getDbName();
 
         try {
             queryPreviousSortMap.put("dbName", dbname);
