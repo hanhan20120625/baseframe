@@ -15,6 +15,14 @@
 		  return false;
 		}
 		$(document).ready(function() {
+			$(".icheckbox_square-green").each(function (i,v) {
+				if(!$(v).hasClass("checked")){
+					$(v).parent("span").hide()
+				}else{
+					$(v).hide()
+					$(v).next("label").addClass("rg");
+				}
+			})
 			$("#no").focus();
 			validateForm = $("#inputForm").validate({
 				rules: {
@@ -43,10 +51,16 @@
 			//否则打开修改对话框，不做任何更改直接submit,这时再触发远程校验，耗时较长，
 			//submit函数在等待远程校验结果然后再提交，而layer对话框不会阻塞会直接关闭同时会销毁表单，因此submit没有提交就被销毁了导致提交表单失败。
 			$("#inputForm").validate().element($("#loginName"));
+
 		});
 
 	
 	</script>
+	<style>
+		.rg{
+			margin-right: 8px;
+		}
+	</style>
 </head>
 <body>
 	<form:form id="inputForm" modelAttribute="user" action="${ctx}/sys/user/save" method="post" class="form-horizontal">
@@ -83,20 +97,15 @@
 						 ${user.loginName}
 				 </td>
 		      </tr>
-		      
-		      
-		      <tr>
-		         <td class="active"><label class="pull-right">
-                     <c:if test="${empty user.id}"><font color="red">*</font></c:if>密码</label></td>
-		         <td>
-                     <input id="newPassword" name="newPassword" type="password" value="" maxlength="50" minlength="3" class="form-control ${empty user.id?'required':''}"/>
-					<c:if test="${not empty user.id}"><span class="help-inline">若不修改密码，请留空。</span></c:if></td>
-		         <td class="active"><label class="pull-right"><c:if test="${empty user.id}"><font color="red">*</font></c:if>确认密码</label>
-                 </td>
-		         <td>
-                     <input id="confirmNewPassword" name="confirmNewPassword" type="password"  class="form-control ${empty user.id?'required':''}" value="" maxlength="50" minlength="3" equalTo="#newPassword"/>
-                 </td>
-		      </tr>
+
+
+			  <tr>
+				  <td class="active"><label class="pull-right"><c:if test="${empty user.id}"><font color="red">*</font></c:if>密码:</label></td>
+				  <td><input id="newPassword" name="newPassword" type="password" value="" maxlength="50" minlength="3" class="form-control ${empty user.id?'required':''}" readonly/>
+					  <c:if test="${not empty user.id}"><span class="help-inline">若不修改密码，请留空。</span></c:if></td>
+				  <td class="active"><label class="pull-right"><c:if test="${empty user.id}"><font color="red">*</font></c:if>确认密码:</label></td>
+				  <td><input id="confirmNewPassword" name="confirmNewPassword" type="password"  class="form-control ${empty user.id?'required':''}" value="" maxlength="50" minlength="3" equalTo="#newPassword" readonly/></td>
+			  </tr>
 		      
 		       <tr>
 		         <td class="active"><label class="pull-right">邮箱</label></td>
@@ -129,7 +138,8 @@
 		         <td class="active"><label class="pull-right"><font color="red">*</font>用户角色</label></td>
 		         <td>
 		         	<form:checkboxes path="roleIdList" items="${allRoles}" itemLabel="name" itemValue="id" htmlEscape="false" cssClass="i-checks required"/>
-		         	<label id="roleIdList-error" class="error" for="roleIdList"></label>
+
+		         	<label id="roleIdList-error" class="error" for="roleIdList" ></label>
 		         </td>
 		      </tr>
 		      
