@@ -78,14 +78,14 @@
 </div>
 <script type="text/template" id="treeTableTpl">
     <tr id="{{row.id}}" pId="{{pid}}">
-        <td><a href="javaScript:void(0)" onclick="openDialogView('查看区域', '${ctx}/sys/area/form?id={{row.id}}','800px', '500px')">{{row.name}}</a>
+        <td><a href="javaScript:void(0)" onclick="openDialogView('查看区域', '${ctx}/sys/area/viewDetails?id={{row.id}}','800px', '500px')">{{row.name}}</a>
         </td>
         <td>{{row.code}}</td>
         <td>{{dict.type}}</td>
         <td>{{row.remarks}}</td>
         <td>
             <shiro:hasPermission name="sys:area:view">
-                <a href="javaScript:void(0)" onclick="openDialogView('查看区域', '${ctx}/sys/area/form?id={{row.id}}','800px', '500px')"
+                <a href="javaScript:void(0)" onclick="openDialogView('查看区域', '${ctx}/sys/area/viewDetails?id={{row.id}}','800px', '500px')"
                    class="btn btn-info btn-xs"><i class="fa fa-search-plus"></i> 查看</a>
             </shiro:hasPermission>
             <shiro:hasPermission name="sys:area:edit">

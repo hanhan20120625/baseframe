@@ -69,6 +69,21 @@ public class OaNotifyController extends BaseController {
 		return "modules/oa/oaNotifyForm";
 	}
 
+	/**
+	 * 查看，增加，编辑报告表单页面
+	 */
+	@RequiresPermissions(value={"oa:oaNotify:view"},logical=Logical.OR)
+	@RequestMapping(value = "viewDetails")
+	public String viewDetails(OaNotify oaNotify, Model model) {
+		if (StringUtils.isNotBlank(oaNotify.getId())){
+			oaNotify = oaNotifyService.getRecordList(oaNotify);
+		}
+		model.addAttribute("oaNotify", oaNotify);
+		return "modules/oa/oaNotifyDetails";
+	}
+
+
+
 	@RequiresPermissions(value={"oa:oaNotify:add","oa:oaNotify:edit"},logical=Logical.OR)
 	@RequestMapping(value = "save")
 	public String save(OaNotify oaNotify, Model model, RedirectAttributes redirectAttributes) {

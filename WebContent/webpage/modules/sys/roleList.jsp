@@ -88,17 +88,17 @@
                     <tr>
                         <td><input type="checkbox" id="${role.id}" class="i-checks"></td>
                         <td><a href="#"
-                               onclick="openDialogView('查看角色', '${ctx}/sys/role/form?id=${role.id}','800px', '500px')">${role.name}</a>
+                               onclick="openDialogView('查看角色', '${ctx}/sys/role/viewDetails?id=${role.id}','800px', '500px')">${role.name}</a>
                         </td>
                         <td><a href="#"
-                               onclick="openDialogView('查看角色', '${ctx}/sys/role/form?id=${role.id}','800px', '500px')">${role.enname}</a>
+                               onclick="openDialogView('查看角色', '${ctx}/sys/role/viewDetails?id=${role.id}','800px', '500px')">${role.enname}</a>
                         </td>
                         <td>${role.office.name}</td>
                         <td>${fns:getDictLabel(role.dataScope, 'sys_data_scope', '无')}</td>
                         <td>
                             <shiro:hasPermission name="sys:role:view">
                                 <a href="#"
-                                   onclick="openDialogView('查看角色', '${ctx}/sys/role/form?id=${role.id}','800px', '500px')"
+                                   onclick="openDialogView('查看角色', '${ctx}/sys/role/viewDetails?id=${role.id}','800px', '500px')"
                                    class="btn btn-info btn-xs"><i class="fa fa-search-plus"></i> 查看</a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="sys:role:edit">

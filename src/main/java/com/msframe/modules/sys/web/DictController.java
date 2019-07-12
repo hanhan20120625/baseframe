@@ -69,6 +69,13 @@ public class DictController extends BaseController {
 		return "modules/sys/dictForm";
 	}
 
+	@RequiresPermissions(value={"sys:dict:view"},logical=Logical.OR)
+	@RequestMapping(value = "viewDetails")
+	public String viewDetails(Dict dict, Model model) {
+		model.addAttribute("dict", dict);
+		return "modules/sys/dictDetails";
+	}
+
 	@RequiresPermissions(value={"sys:dict:add","sys:dict:edit"},logical=Logical.OR)
 	@RequestMapping(value = "save")//@Valid 
 	public String save(Dict dict, Model model, RedirectAttributes redirectAttributes) {

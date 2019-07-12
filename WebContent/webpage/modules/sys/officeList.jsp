@@ -50,14 +50,14 @@
 	</table>
 	<script type="text/template" id="treeTableTpl">
 		<tr id="{{row.id}}" pId="{{pid}}">
-			<td><a  href="javaScript:void(0)" onclick="openDialogView('查看机构', '${ctx}/sys/office/form?id={{row.id}}','800px', '620px')">{{row.name}}</a></td>
+			<td><a  href="javaScript:void(0)" onclick="openDialogView('查看机构', '${ctx}/sys/office/viewDetails?id={{row.id}}','800px', '620px')">{{row.name}}</a></td>
 			<td>{{row.area.name}}</td>
 			<td>{{row.code}}</td>
 			<td>{{dict.type}}</td>
 			<td>{{row.remarks}}</td>
 			<td>
 				<shiro:hasPermission name="sys:office:view">
-					<a href="javaScript:void(0)" onclick="openDialogView('查看机构', '${ctx}/sys/office/form?id={{row.id}}','800px', '620px')" class="btn btn-info btn-xs" ><i class="fa fa-search-plus"></i> 查看</a>
+					<a href="javaScript:void(0)" onclick="openDialogView('查看机构', '${ctx}/sys/office/viewDetails?id={{row.id}}','800px', '620px')" class="btn btn-info btn-xs" ><i class="fa fa-search-plus"></i> 查看</a>
 				</shiro:hasPermission>
 				<shiro:hasPermission name="sys:office:edit">
 					<a href="javaScript:void(0)" onclick="openDialog('修改机构', '${ctx}/sys/office/form?id={{row.id}}','800px', '620px', 'officeContent')" class="btn btn-success btn-xs" ><i class="fa fa-edit"></i> 修改</a>

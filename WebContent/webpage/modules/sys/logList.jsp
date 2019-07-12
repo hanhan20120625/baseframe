@@ -31,23 +31,6 @@
 <div class="ibox">
 <div class="ibox-title">
 		<h5>日志列表 </h5>
-		<div class="ibox-tools">
-			<a class="collapse-link">
-				<i class="fa fa-chevron-up"></i>
-			</a>
-			<a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
-				<i class="fa fa-wrench"></i>
-			</a>
-			<ul class="dropdown-menu dropdown-user">
-				<li><a href="javaScript:void(0)">选项1</a>
-				</li>
-				<li><a href="javaScript:void(0)">选项2</a>
-				</li>
-			</ul>
-			<a class="close-link">
-				<i class="fa fa-times"></i>
-			</a>
-		</div>
 	</div>
     
     <div class="ibox-content">
@@ -61,18 +44,29 @@
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<table:sortColumn id="orderBy" name="orderBy" value="${page.orderBy}" callback="sortOrRefresh();"/><!-- 支持排序 -->
 		<div class="form-group">
-			<span>操作菜单：</span>
-				<input id="title" name="title" type="text" maxlength="50" class="form-control input-sm" value="${log.title}"/>
-			<span>用户ID：</span>
-				<input id="createBy.id" name="createBy.id" type="text" maxlength="50" class="form-control input-sm" value="${log.createBy.id}"/>
-			<span>URI：</span>
-				<input id="requestUri" name="requestUri" type="text" maxlength="50"  class="form-control input-sm" value="${log.requestUri}"/>
-			<span>日期范围：&nbsp;</span>
-				<input id="beginDate" name="beginDate" type="text" maxlength="20" class="laydate-icon form-control layer-date input-sm"
+
+				<div class="from-screen-box clearfloat">
+					<span class="screen-title-style" >操作菜单</span>
+					<input id="title" name="title" type="text" maxlength="255" class="form-control input-sm screen-input-style" value="${log.title}"/>
+				</div>
+
+				<div class="from-screen-box clearfloat">
+					<span class="screen-title-style" >用户ID</span>
+					<input id="createBy.id" name="createBy.id" type="text" maxlength="255" class="form-control input-sm screen-input-style" value="${log.createBy.id}"/>
+				</div>
+				<div class="from-screen-box clearfloat">
+					<span class="screen-title-style" >URI</span>
+					<input id="requestUri" name="requestUri" type="text" maxlength="255"  class="form-control input-sm screen-input-style" value="${log.requestUri}"/>
+				</div>
+
+			<div class="from-screen-box clearfloat">
+				<span class="screen-title-style" >日期范围</span>
+				<input id="beginDate" name="beginDate" type="text" maxlength="255" class="laydate-icon form-control layer-date input-sm"
 				value="<fmt:formatDate value="${log.beginDate}" pattern="yyyy-MM-dd"/>"/>
-			<label>&nbsp;--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input id="endDate" name="endDate" type="text" maxlength="20" class=" laydate-icon form-control layer-date input-sm"
+			<label>&nbsp;--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input id="endDate" name="endDate" type="text" maxlength="255" class=" laydate-icon form-control layer-date input-sm"
 				value="<fmt:formatDate value="${log.endDate}" pattern="yyyy-MM-dd"/>" />&nbsp;&nbsp;
 			&nbsp;<label for="exception"><input id="exception" name="exception" class="i-checks" type="checkbox"${log.exception eq '1'?' checked':''} value="1"/>只查询异常信息</label>
+			</div>
 		 </div>	
 	</form:form>
 	<br/>

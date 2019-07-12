@@ -78,6 +78,26 @@ public class MenuController extends BaseController {
 		model.addAttribute("menu", menu);
 		return "modules/sys/menuForm";
 	}
+
+	@RequiresPermissions(value={"sys:menu:view"},logical=Logical.OR)
+	@RequestMapping(value = "viewDetails")
+	public String viewDetails(Menu menu, Model model) {
+		if (menu.getParent()==null||menu.getParent().getId()==null){
+			menu.setParent(new Menu(Menu.getRootId()));
+		}
+		menu.setParent(systemService.getMenu(menu.getParent().getId()));
+		// 获取排序号，最末节点排序号+30
+		if (StringUtils.isBlank(menu.getId())){
+			List<Menu> list = Lists.newArrayList();
+			List<Menu> sourcelist = systemService.findAllMenu();
+			Menu.sortList(list, sourcelist, menu.getParentId(), false);
+			if (list.size() > 0){
+				menu.setSort(list.get(list.size()-1).getSort() + 30);
+			}
+		}
+		model.addAttribute("menu", menu);
+		return "modules/sys/menuDetails";
+	}
 	
 	@RequiresPermissions(value={"sys:menu:add","sys:menu:edit"},logical=Logical.OR)
 	@RequestMapping(value = "save")

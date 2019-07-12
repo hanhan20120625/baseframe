@@ -81,6 +81,32 @@ public class AreaController extends BaseController {
 		model.addAttribute("area", area);
 		return "modules/sys/areaForm";
 	}
+
+	@RequiresPermissions(value={"sys:area:view"},logical=Logical.OR)
+	@RequestMapping(value = "viewDetails")
+	public String viewDetails(Area area, Model model) {
+		if (area.getParent()==null||area.getParent().getId()==null){
+			area.setParent(UserUtils.getUser().getOffice().getArea());
+		}else{
+			area.setParent(areaService.get(area.getParent().getId()));
+		}
+
+//		// 自动获取排序号
+//		if (StringUtils.isBlank(area.getId())){
+//			int size = 0;
+//			List<Area> list = areaService.findAll();
+//			for (int i=0; i<list.size(); i++){
+//				Area e = list.get(i);
+//				if (e.getParent()!=null && e.getParent().getId()!=null
+//						&& e.getParent().getId().equals(area.getParent().getId())){
+//					size++;
+//				}
+//			}
+//			area.setCode(area.getParent().getCode() + StringUtils.leftPad(String.valueOf(size > 0 ? size : 1), 4, "0"));
+//		}
+		model.addAttribute("area", area);
+		return "modules/sys/areaDetails";
+	}
 	
 	@RequiresPermissions(value={"sys:area:add","sys:area:edit"},logical=Logical.OR)
 	@RequestMapping(value = "save")

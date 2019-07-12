@@ -102,7 +102,7 @@
                         <td><input type="checkbox" id="${dict.id}" class="i-checks"></td>
                         <td>${dict.value}</td>
                         <td><a href="javaScript:void(0)"
-                               onclick="openDialogView('查看字典', '${ctx}/sys/dict/form?id=${dict.id}','800px', '500px')">${dict.label}</a>
+                               onclick="openDialogView('查看字典', '${ctx}/sys/dict/viewDetails?id=${dict.id}','800px', '500px')">${dict.label}</a>
                         </td>
                         <td><a href="javascript:"
                                onclick="$('#type').val('${dict.type}');$('#searchForm').submit();return false;">${dict.type}</a>
@@ -112,7 +112,7 @@
                         <td>
                             <shiro:hasPermission name="sys:dict:view">
                                 <a href="javaScript:void(0)"
-                                   onclick="openDialogView('查看字典', '${ctx}/sys/dict/form?id=${dict.id}','800px', '500px')"
+                                   onclick="openDialogView('查看字典', '${ctx}/sys/dict/viewDetails?id=${dict.id}','800px', '500px')"
                                    class="btn btn-info btn-xs"><i class="fa fa-search-plus"></i> 查看</a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="sys:dict:edit">

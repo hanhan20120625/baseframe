@@ -10,7 +10,7 @@
 <div class="ibox">
 <div class="ibox-title">
 		<h5>通知列表 </h5>
-		<div class="ibox-tools">
+		<%--<div class="ibox-tools">
 			<a class="collapse-link">
 				<i class="fa fa-chevron-up"></i>
 			</a>
@@ -26,7 +26,7 @@
 			<a class="close-link">
 				<i class="fa fa-times"></i>
 			</a>
-		</div>
+		</div>--%>
 	</div>
     
     <div class="ibox-content">
@@ -40,14 +40,19 @@
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<table:sortColumn id="orderBy" name="orderBy" value="${page.orderBy}" callback="sortOrRefresh();"/><!-- 支持排序 -->
 		<div class="form-group">
-			<span>标题：</span>
-				<form:input path="title" htmlEscape="false" maxlength="200"  class=" form-control input-sm"/>
-			
-			<span>类型：</span>
-				<form:select path="type"  class="form-control m-b">
+			<div class="from-screen-box clearfloat">
+				<span class="screen-title-style" >标题</span>
+				<form:input path="title" htmlEscape="false" maxlength="255"  class=" form-control input-sm screen-input-style"/>
+			</div>
+			<div class="from-screen-box clearfloat from-screen-btnbox">
+				<span class="screen-title-style" >类型</span>
+				<form:select path="type"  class="form-control m-b screen-control ">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('oa_notify_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
+			</div>
+
+
 			<c:if test="${!requestScope.oaNotify.self}"><span>状态：</span>
 				<form:radiobuttons path="status" class="i-checks" items="${fns:getDictList('oa_notify_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 			</c:if>
@@ -132,7 +137,7 @@
 				<td>
 				<c:if test="${!requestScope.oaNotify.self}">
 					<shiro:hasPermission name="oa:oaNotify:view">
-						<a href="javaScript:void(0)" onclick="openDialogView('查看通知', '${ctx}/oa/oaNotify/form?id=${oaNotify.id}','800px', '600px')" class="btn btn-info btn-xs btn-circle" ><i class="fa fa-search-plus"></i></a>
+						<a href="javaScript:void(0)" onclick="openDialogView('查看通知', '${ctx}/oa/oaNotify/viewDetails?id=${oaNotify.id}','800px', '600px')" class="btn btn-info btn-xs btn-circle" ><i class="fa fa-search-plus"></i></a>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="oa:oaNotify:edit">
     					<a href="javaScript:void(0)" onclick="openDialog('修改通知', '${ctx}/oa/oaNotify/form?id=${oaNotify.id}','800px', '600px')" class="btn btn-success btn-xs btn-circle" ><i class="fa fa-edit"></i></a>

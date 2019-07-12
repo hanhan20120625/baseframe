@@ -95,7 +95,7 @@
                             <td nowrap>
                                 <shiro:hasPermission name="sys:menu:view">
                                     <a href="javaScript:void(0)"
-                                       onclick="openDialogView('查看菜单', '${ctx}/sys/menu/form?id=${menu.id}','800px', '500px')"
+                                       onclick="openDialogView('查看菜单', '${ctx}/sys/menu/viewDetails?id=${menu.id}','800px', '500px')"
                                        class="btn btn-info btn-xs"><i class="fa fa-search-plus"></i> 查看</a>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="sys:menu:edit">

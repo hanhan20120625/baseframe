@@ -15,17 +15,30 @@
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<table:sortColumn id="orderBy" name="orderBy" value="${page.orderBy}" callback="sortOrRefresh();"/><!-- 支持排序 -->
 		<div class="form-group">
-			<span>归属公司：</span>
-				<sys:treeselect id="company" name="company.id" value="${user.company.id}" labelName="company.name" labelValue="${user.company.name}" 
-				title="公司" url="/sys/office/treeData?type=1" cssClass=" form-control input-sm" allowClear="true"/>
-			<span>登录名：</span>
-				<form:input path="loginName" htmlEscape="false" maxlength="50" class=" form-control input-sm"/>
-			<span>归属部门：</span>
+
+			<div class="from-screen-box from-screen-btnbox clearfloat">
+				<span class="screen-title-style" >归属公司</span>
+				<sys:treeselect id="company" name="company.id" value="${user.company.id}" labelName="company.name" labelValue="${user.company.name}"
+								title="公司" url="/sys/office/treeData?type=1" cssClass=" form-control required screen-control" allowClear="true"/>
+			</div>
+			<div class="from-screen-box clearfloat">
+				<span class="screen-title-style" >登录名</span>
+				<form:input path="loginName" htmlEscape="false" maxlength="255"  class=" form-control input-sm screen-input-style"/>
+			</div>
+			<%--<span>归属部门：</span>
 				<sys:treeselect id="office" name="office.id" value="${user.office.id}" labelName="office.name" labelValue="${user.office.name}" 
-				title="部门" url="/sys/office/treeData?type=2" cssClass=" form-control input-sm" allowClear="true" notAllowSelectParent="true"/>
-			<span>姓&nbsp;&nbsp;&nbsp;名：</span>
-				<form:input path="name" htmlEscape="false" maxlength="50" class=" form-control input-sm"/>
-		
+				title="部门" url="/sys/office/treeData?type=2" cssClass=" form-control input-sm" allowClear="true" notAllowSelectParent="true"/>--%>
+			<div class="from-screen-box from-screen-btnbox clearfloat">
+				<span class="screen-title-style" >归属部门</span>
+				<sys:treeselect id="office" name="office.id" value="${user.office.id}" labelName="office.name" labelValue="${user.office.name}"
+								title="部门" url="/sys/office/treeData?type=2" cssClass=" form-control required screen-control" allowClear="true" notAllowSelectParent="true"/>
+			</div>
+
+			<div class="from-screen-box clearfloat">
+				<span class="screen-title-style" >姓&nbsp;&nbsp;&nbsp;名</span>
+				<form:input path="name" htmlEscape="false" maxlength="255"  class=" form-control input-sm screen-input-style"/>
+			</div>
+
 		 </div>	
 	</form:form>
 	<br/>
@@ -86,7 +99,7 @@
 				<td>${user.office.name}</td>
 				<td>
 					<shiro:hasPermission name="sys:user:view">
-						<a href="#" onclick="openDialogView('查看用户', '${ctx}/sys/user/form?id=${user.id}','800px', '580px')" class="btn btn-info btn-xs" ><i class="fa fa-search-plus"></i> 查看</a>
+						<a href="#" onclick="openDialogView('查看用户', '${ctx}/sys/user/viewDetails?id=${user.id}','800px', '580px')" class="btn btn-info btn-xs" ><i class="fa fa-search-plus"></i> 查看</a>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="sys:user:edit">
 						<a href="#" onclick="openDialog('修改用户', '${ctx}/sys/user/form?id=${user.id}','800px', '580px', 'officeContent')" class="btn btn-success btn-xs" ><i class="fa fa-edit"></i> 修改</a>
