@@ -53,8 +53,14 @@
 			</div>
 
 
-			<c:if test="${!requestScope.oaNotify.self}"><span>状态：</span>
-				<form:radiobuttons path="status" class="i-checks" items="${fns:getDictList('oa_notify_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+			<c:if test="${!requestScope.oaNotify.self}">
+				<div class="from-screen-box clearfloat from-screen-btnbox">
+					<span class="screen-title-style" >状态</span>
+					<form:select path="status"  class="form-control m-b screen-control ">
+						<form:option value="" label=""/>
+						<form:options items="${fns:getDictList('oa_notify_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					</form:select>
+				</div>
 			</c:if>
 		
 		 </div>	
@@ -114,7 +120,7 @@
 		<c:forEach items="${page.list}" var="oaNotify">
 			<tr>
 				<td> <input type="checkbox" id="${oaNotify.id}" class="i-checks"></td>
-				<td><a  href="javaScript:void(0)" onclick="openDialogView('查看通知', '${ctx}/oa/oaNotify/${requestScope.oaNotify.self?'view':'form'}?id=${oaNotify.id}','800px', '600px')">
+				<td><a  href="javaScript:void(0)" onclick="openDialogView('查看通知', '${ctx}/oa/oaNotify/${requestScope.oaNotify.self?'view':'viewDetails'}?id=${oaNotify.id}','800px', '600px')">
 					${fns:abbr(oaNotify.title,50)}
 				</a></td>
 				<td>
