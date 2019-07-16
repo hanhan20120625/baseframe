@@ -70,7 +70,9 @@
 		      </tr>
 		      <tr>
 		         <td  class="width-15 active"><label class="pull-right">可见</label></td>
-		         <td class="width-35" ><form:radiobuttons path="isShow" items="${fns:getDictList('show_hide')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required i-checks "/>
+		         <td class="width-35" >
+<%--					 <form:radiobuttons path="isShow" items="${fns:getDictList('show_hide')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required i-checks "/>--%>
+						 ${fns:getDictLabel(menu.isShow, 'show_hide', '')}
 					<span class="help-inline">该菜单或操作是否显示到系统菜单中</span></td>
 		         <td  class="width-15 active"><label class="pull-right">权限标识</label></td>
 		         <td  class="width-35" >

@@ -78,7 +78,7 @@
                         <tr id="${menu.id}" pId="${menu.parent.id ne '1'?menu.parent.id:'0'}">
                             <td><input type="checkbox" id="${menu.id}" class="i-checks"></td>
                             <td nowrap><i class="icon-${not empty menu.icon?menu.icon:' hide'}"></i><a href="javaScript:void(0)"
-                                                                                                       onclick="openDialogView('查看菜单', '${ctx}/sys/menu/form?id=${menu.id}','800px', '500px')">${menu.name}</a>
+                                                                                                       onclick="openDialogView('查看菜单', '${ctx}/sys/menu/viewDetails?id=${menu.id}','800px', '500px')">${menu.name}</a>
                             </td>
                             <td title="${menu.href}">${fns:abbr(menu.href,30)}</td>
                             <td align="center">
