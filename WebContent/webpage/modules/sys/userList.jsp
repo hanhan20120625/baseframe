@@ -91,7 +91,7 @@
 		<c:forEach items="${page.list}" var="user">
 			<tr>
 				<td> <input type="checkbox" id="${user.id}" class="i-checks"></td>
-				<td><a  href="#" onclick="openDialogView('查看用户', '${ctx}/sys/user/form?id=${user.id}','800px', '580px')">${user.loginName}</a></td>
+				<td><a  href="#" onclick="openDialogView('查看用户', '${ctx}/sys/user/viewDetails?id=${user.id}','800px', '580px')">${user.loginName}</a></td>
 				<td>${user.name}</td>
 				<td>${user.phone}</td>
 				<td>${user.mobile}</td>

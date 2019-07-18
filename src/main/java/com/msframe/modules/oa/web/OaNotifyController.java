@@ -59,7 +59,7 @@ public class OaNotifyController extends BaseController {
 	/**
 	 * 查看，增加，编辑报告表单页面
 	 */
-	@RequiresPermissions(value={"oa:oaNotify:view","oa:oaNotify:add","oa:oaNotify:edit"},logical=Logical.OR)
+	@RequiresPermissions(value={"oa:oaNotify:add","oa:oaNotify:edit"},logical=Logical.OR)
 	@RequestMapping(value = "form")
 	public String form(OaNotify oaNotify, Model model) {
 		if (StringUtils.isNotBlank(oaNotify.getId())){

@@ -28,10 +28,10 @@
 			</a>
 		</div>--%>
 	</div>
-    
+
     <div class="ibox-content">
 	<sys:message content="${message}"/>
-	
+
 		<!-- 查询条件 -->
 	<div class="row">
 	<div class="col-sm-12">
@@ -62,14 +62,14 @@
 					</form:select>
 				</div>
 			</c:if>
-		
-		 </div>	
+
+		 </div>
 	</form:form>
 	<br/>
 	</div>
 	</div>
-	
-	
+
+
 	<!-- 工具栏 -->
 	<div class="row">
 	<div class="col-sm-12">
@@ -90,7 +90,7 @@
 			<shiro:hasPermission name="oa:oaNotify:export">
 	       		<table:exportExcel url="${ctx}/oa/oaNotify/export"></table:exportExcel><!-- 导出按钮 -->
 	       </shiro:hasPermission>
-	      
+
 	       <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="left" onclick="sortOrRefresh()" title="刷新"><i class="glyphicon glyphicon-repeat"></i> 刷新</button>
 		 </c:if>
 			</div>
@@ -100,10 +100,10 @@
 		</div>
 	</div>
 	</div>
-	
-	
-	
-	
+
+
+
+
 	<table id="contentTable" class="table table-striped table-bordered  table-hover table-condensed  dataTables-example dataTable no-footer">
 		<thead>
 			<tr>
@@ -120,7 +120,7 @@
 		<c:forEach items="${page.list}" var="oaNotify">
 			<tr>
 				<td> <input type="checkbox" id="${oaNotify.id}" class="i-checks"></td>
-				<td><a  href="javaScript:void(0)" onclick="openDialogView('查看通知', '${ctx}/oa/oaNotify/${requestScope.oaNotify.self?'view':'viewDetails'}?id=${oaNotify.id}','800px', '600px')">
+				<td><a  href="javaScript:void(0)" onclick="openDialogView('查看通知', '${ctx}/oa/oaNotify/${requestScope.oaNotify.self?'viewDetails':'viewDetails'}?id=${oaNotify.id}','800px', '600px')">
 					${fns:abbr(oaNotify.title,50)}
 				</a></td>
 				<td>

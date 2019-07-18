@@ -126,11 +126,7 @@
                                         class="fa fa-trash"></i> 删除</a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="sys:dict:add">
-                                <a href="javaScript:void(0)" onclick="openDialog('添加键值', '
-                                <c:url value='${fns:getAdminPath()}/sys/dict/form?type=${dict.type}&sort=${dict.sort+10}'>
-                                    <c:param name='description' value='${dict.description}'/>
-                                </c:url>','800px', '500px')" class="btn btn-primary btn-xs"><i
-                                        class="fa fa-plus"></i> 添加键值</a>
+                                <a href="javaScript:void(0)" onclick="openDialog('添加键值', '<c:url value='${fns:getAdminPath()}/sys/dict/form?type=${dict.type}&sort=${dict.sort+10}'><c:param name='description' value='${dict.description}'/></c:url>','800px', '500px')" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> 添加键值</a>
                             </shiro:hasPermission>
                         </td>
                     </tr>

@@ -11,7 +11,7 @@
 			  $("#inputForm").submit();
 			  return true;
 		  }
-	
+
 		  return false;
 		}
 		$(document).ready(function() {
@@ -37,7 +37,7 @@
 <body>
 	<form:form id="inputForm" modelAttribute="oaNotify" action="${ctx}/oa/oaNotify/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
-		<sys:message content="${message}"/>	
+		<sys:message content="${message}"/>
 		<table class="table table-bordered  table-condensed dataTables-example dataTable no-footer">
 		   <tbody>
 		      <tr>
@@ -62,11 +62,11 @@
 					<form:hidden id="files" path="files" htmlEscape="false" maxlength="255" class="form-control"/>
 					<sys:ckfinder input="files" type="files" uploadPath="/oa/notify" selectMultiple="true" readonly="true" />
 		         </c:if>
-		         
-		         
+
+
 		         </td>
 		      </tr>
-		      
+
 		      <c:if test="${oaNotify.status ne '1'}">
 		      	 <tr>
 			         <td  class="width-15 active">	<label class="pull-right"><font color="red">*</font>状态：</label></td>
@@ -76,7 +76,7 @@
 							title="用户" url="/sys/office/treeData?type=3" cssClass="form-control required" notAllowSelectParent="true" checked="true"/></td>
 		      	</tr>
 			</c:if>
-			
+
 					<c:if test="${oaNotify.status eq '1'}">
 					  <tr>
 				         <td  class="width-15 active">	<label class="pull-right">接受人：</label></td>
@@ -113,8 +113,8 @@
 		</c:if>
 		</tbody>
 		</table>
-		     
-		
+
+
 
 	</form:form>
 </body>
